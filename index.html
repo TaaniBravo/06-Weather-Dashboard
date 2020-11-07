@@ -21,12 +21,12 @@
     </header>
 
     <main id="container" class="container-fluid row">
-        <aside id="searchBar" class="col-4">
+        <form id="searchBar" class="col-4">
             <p class="font-weight-bold">Search for a City:</p>
             <div class="input-group mb-3">
-                <input type="text" class="form-control col-8">
+                <input type="text" class="form-control col-8" id="searchInput">
                 <div class="input-group-append">
-                  <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+                  <button class="btn btn-primary" type="button" id="searchBtn"><i class="fas fa-search"></i></button>
                 </div>
               </div>
               <div id="searches-container">
@@ -34,7 +34,7 @@
 
                   </ul>
               </div>
-        </aside>
+        </form>
 
         <section id="city-info-container" class="col-8">
             <h3 id="cityId"></h3>
@@ -50,8 +50,8 @@
         </section>
     </main>
     
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/script.js"></script>
 </body>
 </html>

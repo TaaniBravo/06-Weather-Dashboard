@@ -1,8 +1,31 @@
+// DECLARE OUR VARIABLES
+const APIKey = "166a433c57516f51dfab1f7edaed8413";
+
+
 // Search Bar Event
 // Calls on function handleSearchRequest when something is submited.
-$('.input-group').on('submit', '.searchBtn', handleSearchRequest)
+$('.input-group-append').on('click', '#searchBtn', handleSearchRequest)
+
+// For the recent searches we want to pull from our localStorage and have it loaded on the screen upon viewing the site.
+let recentSearches = localStorage.getItem('Cities') || [];
+for (let cityIndex = 0; cityIndex < localStorage.length; cityIndex++) {
+    let cityList = $('<li>').addClass('list-group-item').text(recentSearches)
+    $('#recentSearches').append(cityList)
+    
+}
+
 
 function handleSearchRequest(e) {
     e.preventDefault()
-    
+
+    let searchRequest = $('#searchInput').val()
+
+    handleStorage(searchRequest)
+    // handle5DayForecast(searchRequest)
+    // handleForecastInfo(searchRequest)
+    console.log(searchRequest)
+}
+
+function handleStorage(searchRequest) {
+    localStorage.setItem('Cities', searchRequest)
 }
