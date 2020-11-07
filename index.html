@@ -14,18 +14,19 @@
 </head>
 
 <body>
-    <header>
-        <div class="jumbotron row col-12 text-center text-white bg-dark">
-            <h1 class="display-4">Weather Dashboard</h1>
-          </div>
+    <header class="container-fluid text-center text-white bg-dark">
+        <div class="p-1">
+            <h2>Weather Dashboard</h1>
+        </div>
     </header>
 
-    <main id="container row">
-        <aside id="searchBar col-4">
-            <div class="input-group mb-3 col-4">
-                <input type="text" class="form-control" placeholder="Look-up your city" aria-label="Look-up your city" aria-describedby="button-addon2">
+    <main id="container" class="container-fluid row">
+        <aside id="searchBar" class="col-4">
+            <p class="font-weight-bold">Search for a City:</p>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control col-8">
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+                  <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
                 </div>
               </div>
               <div id="searches-container">
@@ -36,14 +37,13 @@
         </aside>
 
         <section id="city-info-container" class="col-8">
-            <p id="cityId"></p>
+            <h3 id="cityId"></h3>
             <p id="temperature">Temperature:</p>
             <p id="humidity">Humidity:</p>
             <p id="windSpeed">Wind Speed:</p>
             <p id="uvIndex">UV Index:</p>
-        </section>
-        <section id="forecast-container">
-            <p>5-Day Forecast</p>
+            <br>
+            <p class="font-weight-bold">5-Day Forecast:</p>
             <div id="daily-forecast">
 
             </div>
