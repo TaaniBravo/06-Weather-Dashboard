@@ -3,26 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="./assets/style.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/style.css" />
 
-    <title>Document</title>
+    <title>Weather Dashboard</title>
 </head>
+
 <body>
     <header>
-
+        <div class="jumbotron row col-12 text-center text-white bg-dark">
+            <h1 class="display-4">Weather Dashboard</h1>
+          </div>
     </header>
 
-    <main id="container">
-        <aside id="searchBar">
-            
+    <main id="container row">
+        <aside id="searchBar col-4">
+            <div class="input-group mb-3 col-4">
+                <input type="text" class="form-control" placeholder="Look-up your city" aria-label="Look-up your city" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+                </div>
+              </div>
+              <div id="searches-container">
+                  <ul class="list-group list-groupflush" id="recentSearches">
+
+                  </ul>
+              </div>
         </aside>
 
-        <section id="cityId">
-
+        <section id="city-info-container" class="col-8">
+            <p id="cityId"></p>
+            <p id="temperature">Temperature:</p>
+            <p id="humidity">Humidity:</p>
+            <p id="windSpeed">Wind Speed:</p>
+            <p id="uvIndex">UV Index:</p>
         </section>
-        <section id="weeklyForecast">
+        <section id="forecast-container">
+            <p>5-Day Forecast</p>
+            <div id="daily-forecast">
 
+            </div>
         </section>
     </main>
     
