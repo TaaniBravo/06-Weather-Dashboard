@@ -11,21 +11,21 @@ let recentSearches = localStorage.getItem('Cities') || [];
 for (let cityIndex = 0; cityIndex < localStorage.length; cityIndex++) {
     let cityList = $('<li>').addClass('list-group-item').text(recentSearches)
     $('#recentSearches').append(cityList)
-    
 }
 
 
 function handleSearchRequest(e) {
     e.preventDefault()
 
+    // LET searchRequest equal the text in the input search bar.
     let searchRequest = $('#searchInput').val()
+    // THEN store the value into our localStorage.
+    localStorage.setItem('Cities', searchRequest)
 
-    handleStorage(searchRequest)
+    handleForecastInfo(searchRequest)
     // handle5DayForecast(searchRequest)
-    // handleForecastInfo(searchRequest)
-    console.log(searchRequest)
 }
 
-function handleStorage(searchRequest) {
-    localStorage.setItem('Cities', searchRequest)
+function handleForecastInfo(searchRequest) {
+
 }
