@@ -28,6 +28,20 @@ function handleSearchRequest(e) {
     // handle5DayForecast(searchRequest)
 }
 
+// For handling all the forecast info we have this function that will create and append the info in our HTML.
 function handleForecastInfo(searchRequest, queryURL) {
+    console.log(queryURL)
+    let cityCapitalized = searchRequest.css('textTransform', 'capitalize')
+
+    // FIRST we need to make ajax call to GET the information we are seeking.
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+
+    // THEN we are going to push our 'response into a function which is going to create and display our information for the requested city.
+    .then(function(response) {
+        
+    })
 
 }
