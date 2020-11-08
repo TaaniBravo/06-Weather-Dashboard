@@ -17,7 +17,8 @@ function handleSearchRequest(e) {
     e.preventDefault()
 
     // LET searchRequest equal the text in the input search bar.
-    let searchRequest = $('#searchInput').val()
+    let searchRequest = $('#searchInput').val().toUpperCase(0)
+    console.log(searchRequest)
     // THEN store the value into our localStorage.
     localStorage.setItem('Cities', searchRequest)
 
@@ -31,7 +32,7 @@ function handleSearchRequest(e) {
 // For handling all the forecast info we have this function that will create and append the info in our HTML.
 function handleForecastInfo(searchRequest, queryURL) {
     console.log(queryURL)
-    let cityCapitalized = searchRequest.css('textTransform', 'capitalize')
+    let cityCapitalized = searchRequest
 
     // FIRST we need to make ajax call to GET the information we are seeking.
     $.ajax({
@@ -41,7 +42,13 @@ function handleForecastInfo(searchRequest, queryURL) {
 
     // THEN we are going to push our 'response into a function which is going to create and display our information for the requested city.
     .then(function(response) {
-        
+        // Display the City Name in the cityId ID.
+        $('#cityId').text(response.name + response.weather.icon)
+        // Display the response temperature in the temperature ID.
+        // First we need to change the temp from K to F
+        let tempF = (response.main.temp - 273.15) * 1.80 + 32;
+        $('#temperature').text('Temperature: ' + tempF.toFixed(2))
+
     })
 
 }
