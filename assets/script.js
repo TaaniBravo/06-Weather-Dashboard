@@ -1,7 +1,6 @@
 // DECLARE OUR VARIABLES
 const APIKey = "166a433c57516f51dfab1f7edaed8413";
 
-
 // Search Bar Event
 // Calls on function handleSearchRequest when something is submited.
 $('.input-group-append').on('click', '#searchBtn', handleSearchRequest)
@@ -22,10 +21,13 @@ function handleSearchRequest(e) {
     // THEN store the value into our localStorage.
     localStorage.setItem('Cities', searchRequest)
 
-    handleForecastInfo(searchRequest)
+    const queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
+      "q=" + searchRequest + "&appid=" + APIKey;
+
+    handleForecastInfo(searchRequest, queryURL)
     // handle5DayForecast(searchRequest)
 }
 
-function handleForecastInfo(searchRequest) {
+function handleForecastInfo(searchRequest, queryURL) {
 
 }
