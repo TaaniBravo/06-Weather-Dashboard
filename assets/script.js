@@ -38,8 +38,16 @@ function handleForecastInfo(queryURL) {
 
     // THEN we are going to push our 'response into a function which is going to create and display our information for the requested city.
     .then(function(response) {
+        // DECLARE our variable for the UV index which going to use a different URL.
+        let uvURL = 'http://api.openweathermap.org/data/2.5/uvi?lat=' + response.coord.lat + '&lon=' + response.coord.lon + '&appid=' + APIKey
+
+        console.log(uvURL)
+        // then set a variable for the icon we want to display with the dashboard.
+        // let weatherIcon = 
+
         // We are going to store the city searched for after they have searched for a valid city.
         localStorage.setItem('Cities', response.name)
+
         // Display the City Name in the cityId ID.
         $('#cityId').text(response.name + response.weather.icon)
         // Display the response temperature in the temperature ID.
@@ -48,6 +56,31 @@ function handleForecastInfo(queryURL) {
         $('#temperature').text('Temperature: ' + tempF.toFixed(2) + '°F')
         // Display the humidity in the humidity ID.
         $('#humidity').text('Humidity: ' + response.main.humidity + '%')
-    })
+        // Display the wind speed in the windSpeed ID.
+        $('#windSpeed').text('Wind Speed: ' + response.wind.speed + ' MPH')
 
+        // TO display the UV index we are going to need to pull from the uvURL data that we made from the top.
+        $.ajax({
+            url: uvURL,
+            method: "GET"
+        })
+
+        // THEN we are going to display the text and color code it depending on the UV Scale.
+        .then(function(response) {
+            // Display the UV Index in the uvIndex ID.
+            $('#uvIndex').text(response.value)
+
+            if (response.value <= 3) {
+                $('#uvIndex').addClass('bg-success text-white p-1 rounded')
+            }
+
+            else if (response.value > 3 && response.value < 7) {
+                $('#uvIndex').addClass('bg-warning text-white p-1 rounded')
+            }
+
+            if (response.value >= 7) {
+                $('#uvIndex').addClass('bg-danger text-white p-1 rounded')
+            }
+        })
+    })
 }
