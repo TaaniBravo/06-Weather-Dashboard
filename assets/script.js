@@ -87,11 +87,26 @@ function handleForecastInfo(queryURL) {
 }
 
 function handle5DayForecast(searchRequest) {
+    // DECLARE our variable for the 5 day forecast url
     const weeklyForecast = `api.openweathermap.org/data/2.5/forecast?q=${searchRequest}&appid=${APIKey}`
+    // THEN create our ajax call
+    $.ajax({
+        url: weeklyForecast,
+        method: "GET"
+    })
+
+    // THEN we need to create and display our 5 day forecast.
+    .then(function(response) {
+        
+    })
+
 
     console.log(weeklyForecast)
 }
 
-function handleStorage(queryURL) {
-
-}
+// function handleStorage() {
+//     // We are going to store the city searched for after they have searched for a valid city.
+//     cityStorage = localStorage.setItem('City-Searched', response.name)
+//     citiesSearched.push(cityStorage)
+    
+// }
