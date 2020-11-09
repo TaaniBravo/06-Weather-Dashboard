@@ -7,10 +7,9 @@ const date = moment().format('l')
 $('.input-group-append').on('click', '#searchBtn', handleSearchRequest)
 
 // For the recent searches we want to pull from our localStorage and have it loaded on the screen upon viewing the site.
-let citiesSearched = []
-let recentSearches = localStorage.getItem('City');
-for (let cityIndex = 0; cityIndex < localStorage.length; cityIndex++) {
-    let cityList = $('<li>').addClass('list-group-item').text(recentSearches)
+let citiesSearched = localStorage.getItem('City-Searched') || [];
+for (let cityIndex = 0; cityIndex < citiesSearched.length; cityIndex++) {
+    let cityList = $('<li>').addClass('list-group-item searchBtn').text(citiesSearched)
     // cityList.addClass()
     $('#recentSearches').append(cityList)
 }
@@ -54,7 +53,7 @@ function handleForecastInfo(queryURL) {
         // Display the response temperature in the temperature ID.
         // First we need to change the temp from K to F
         let tempF = (response.main.temp - 273.15) * 1.80 + 32;
-        $('#temperature').text('Temperature: ' + tempF.toFixed(2) + '°F')
+        $('#temperature').text('Temperature: ' + tempF.toFixed(0) + '°F')
         // Display the humidity in the humidity ID.
         $('#humidity').text('Humidity: ' + response.main.humidity + '%')
         // Display the wind speed in the windSpeed ID.
@@ -88,25 +87,51 @@ function handleForecastInfo(queryURL) {
 
 function handle5DayForecast(searchRequest) {
     // DECLARE our variable for the 5 day forecast url
-    const weeklyForecast = `api.openweathermap.org/data/2.5/forecast?q=${searchRequest}&appid=${APIKey}`
+    const weeklyForecast = `http://api.openweathermap.org/data/2.5/forecast/daily?q=${searchRequest}&cnt=6&appid=${APIKey}`
     // THEN create our ajax call
     $.ajax({
         url: weeklyForecast,
         method: "GET"
     })
-
     // THEN we need to create and display our 5 day forecast.
     .then(function(response) {
-        
+        // FOR each of the days on the dash board we will create for loop to create them all in the least amount of code. 
+        for (let dayIndex = 1; dayIndex < 6; dayIndex++) {
+            let dayInfo = response.list
+
+            let weeklyIcon = ($('<img>').attr('src', `http://openweathermap.org/img/wn/${dayInfo[dayIndex - 1].weather[0].icon}.png`))
+
+            let tempF = (dayInfo[dayIndex].temp.day - 273.15) * 1.80 + 32;
+            //  We start with pulling the next 5 dates from momentJS and displaying them in the card titles.
+            $(`#day${dayIndex}title`).text(moment().add(dayIndex, 'd').format('l'))
+            // THEN we display the icons that we want for each of the responses. 
+            $(`#weatherIcon${dayIndex}`).append(weeklyIcon)
+
+            // NEXT is the Temperature and Humidity
+            $(`#weeklyTemp${dayIndex}`).text('Temp: ' + tempF.toFixed(0) + '°F')
+
+            $(`#weeklyHumidity${dayIndex}`).text('Humidity: ' + dayInfo[dayIndex].humidity + '%')
+
+        }
     })
 
 
     console.log(weeklyForecast)
 }
 
-// function handleStorage() {
-//     // We are going to store the city searched for after they have searched for a valid city.
-//     cityStorage = localStorage.setItem('City-Searched', response.name)
-//     citiesSearched.push(cityStorage)
-    
-// }
+function handleStorage(queryURL) {
+    // We are going to store the city searched for after they have searched for a valid city.
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+
+    // THEN we are going to push our 'response into a function which is going to create and display our information for the requested city.
+    .then(function(response) {
+    let recentSearches = {
+        city: response.name
+    }
+    citiesSearched.push(recentSearches)
+    localStorage.setItem('City-Searched', citiesSearched)
+    })
+}
