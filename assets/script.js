@@ -53,7 +53,7 @@ function handleForecastInfo(queryURL) {
     .then(function(response) {
 
         // then set a variable for the icon we want to display with the dashboard.
-        let weatherIcon = ($('<img>').attr('src', `http://openweathermap.org/img/wn/${response.weather[0].icon}.png`))
+        let weatherIcon = ($('<img>').attr('src', `https://openweathermap.org/img/wn/${response.weather[0].icon}.png`))
         // let weatherIcon = ($('<img>').attr('src', response.weather.icon))
 
         // Display the City Name in the cityId ID.
@@ -69,7 +69,7 @@ function handleForecastInfo(queryURL) {
         $('#windSpeed').text('Wind Speed: ' + response.wind.speed + ' MPH')
 
         // DECLARE our variable for the UV index which going to use a different URL.
-        let uvURL = 'http://api.openweathermap.org/data/2.5/uvi?lat=' + response.coord.lat + '&lon=' + response.coord.lon + '&appid=' + APIKey
+        let uvURL = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + response.coord.lat + '&lon=' + response.coord.lon + '&appid=' + APIKey
 
         // TO display the UV index we are going to need to pull from the uvURL data that we made.
         $.ajax({
@@ -99,7 +99,7 @@ function handleForecastInfo(queryURL) {
 
 function handle5DayForecast(searchRequest) {
     // DECLARE our variable for the 5 day forecast url
-    const weeklyForecast = `http://api.openweathermap.org/data/2.5/forecast/daily?q=${searchRequest}&cnt=6&appid=${APIKey}`
+    const weeklyForecast = `https://api.openweathermap.org/data/2.5/forecast/daily?q=${searchRequest}&cnt=6&appid=${APIKey}`
     // THEN create our ajax call
     $.ajax({
         url: weeklyForecast,
@@ -116,7 +116,7 @@ function handle5DayForecast(searchRequest) {
             $(`#day${dayIndex}title`).text(moment().add(dayIndex, 'd').format('l'))
             // THEN we display the icons that we want for each of the responses. 
             // $(`#weatherIcon${dayIndex}`).append(weeklyIcon)
-            $(`#icon${dayIndex}`).attr('src', `http://openweathermap.org/img/wn/${dayInfo[dayIndex - 1].weather[0].icon}.png`)
+            $(`#icon${dayIndex}`).attr('src', `https://openweathermap.org/img/wn/${dayInfo[dayIndex - 1].weather[0].icon}.png`)
             // NEXT is the Temperature and Humidity
             $(`#weeklyTemp${dayIndex}`).text('Temp: ' + tempF.toFixed(0) + '°F')
 
