@@ -5,6 +5,7 @@ const date = moment().format('l')
 // Search Bar Event
 // Calls on function handleSearchRequest when something is submited.
 $('#container').on('click', '#searchBtn', handleSearchRequest)
+$('body').on('load', '#searchBtn', handleSearchRequest)
 
 //  WHEN the user clicks on the recent searches then we want to push that into our input so they can search that city again.
 $('#recentSearches').on('click', '.list-group-item-action', function(e) {
@@ -15,11 +16,11 @@ $('#recentSearches').on('click', '.list-group-item-action', function(e) {
 
 // For the recent searches we want to pull from our localStorage and have it loaded on the screen upon viewing the site.
 let searchHistory = JSON.parse(localStorage.getItem('City')) || [];
-
-for (let cityIndex = 0; cityIndex < searchHistory.length; cityIndex++) {
+const dupCitiesRemoved = Array.from(new Set(searchHistory))
+for (let cityIndex = 0; cityIndex < dupCitiesRemoved.length; cityIndex++) {
 
     // To remove the duplicate searches from the list we are going to use the new Set method and apply the localstorage list to a new array dupCitiesRemoved.
-    const dupCitiesRemoved = Array.from(new Set(searchHistory.filter(Boolean)))
+    
     let cityList = $('<button>').addClass('btn text-left border-bottom').attr('id', 'searchBtn').text(dupCitiesRemoved[cityIndex]).css('textTransform', 'capitalize')
 
     $('#recentSearches').append(cityList)
