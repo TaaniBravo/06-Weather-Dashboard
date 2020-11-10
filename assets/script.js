@@ -4,14 +4,23 @@ const date = moment().format('l')
 
 // Search Bar Event
 // Calls on function handleSearchRequest when something is submited.
-$('.input-group-append').on('click', '#searchBtn', handleSearchRequest)
+$('#container').on('click', '#searchBtn', handleSearchRequest)
+
+//  WHEN the user clicks on the recent searches then we want to push that into our input so they can search that city again.
+$('#recentSearches').on('click', '.list-group-item-action', function(e) {
+    e.preventDefault()
+
+    $('#searchInput').val($(this).text()).css('textTransform', 'capitalize')
+})
 
 // For the recent searches we want to pull from our localStorage and have it loaded on the screen upon viewing the site.
 let searchHistory = JSON.parse(localStorage.getItem('City')) || [];
 
 for (let cityIndex = 0; cityIndex < searchHistory.length; cityIndex++) {
 
-    let cityList = $('<li>').addClass('list-group-item list-group-item-action').text(searchHistory[cityIndex]).css('textTransform', 'capitalize')
+    // To remove the duplicate searches from the list we are going to use the new Set method and apply the localstorage list to a new array dupCitiesRemoved.
+    const dupCitiesRemoved = Array.from(new Set(searchHistory.filter(Boolean)))
+    let cityList = $('<button>').addClass('btn text-left border-bottom').attr('id', 'searchBtn').text(dupCitiesRemoved[cityIndex]).css('textTransform', 'capitalize')
 
     $('#recentSearches').append(cityList)
 }
@@ -20,15 +29,10 @@ function handleSearchRequest(e) {
     e.preventDefault()
 
     // LET searchRequest equal the text in the input search bar.
-    let searchRequest = $('#searchInput').val()
+    let searchRequest = $('#searchInput').val() || $(this).text()
 
     const queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
       "q=" + searchRequest + "&appid=" + APIKey;
-
-    // Once the user searches a city we want that city to be pushed into the recent searches list. So we create a new list element...
-    let newSearch = $('<li>').addClass('list-group-item list-group-item-action').text(searchRequest).css('textTransform', 'capitalize')
-    // THEN append it to our ul 'recentSearches'
-    $('#recentSearches').append(newSearch)
 
     handleForecastInfo(queryURL)
     handle5DayForecast(searchRequest)
@@ -53,7 +57,7 @@ function handleForecastInfo(queryURL) {
 
         // Display the City Name in the cityId ID.
         $('#cityId').text(response.name + ' (' + date + ') ')
-        $('#cityId').append(weatherIcon.addClass('bg-dark rounded'))
+        $('#cityId').append(weatherIcon.addClass('bg-primary rounded'))
         // Display the response temperature in the temperature ID.
         // First we need to change the temp from K to F
         let tempF = (response.main.temp - 273.15) * 1.80 + 32;

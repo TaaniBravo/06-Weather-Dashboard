@@ -20,22 +20,20 @@
     </header>
 
     <main id="container" class="container-fluid row">
-        <form id="searchBar" class="col-md-2">
+        <form id="searchBar" class="col-xl-2">
             <p class="font-weight-bold">Search for a City:</p>
             <div class="input-group mb-3">
-                <input type="text" class="form-control col-md-8" id="searchInput">
+                <input type="text" class="form-control col-xl-8" id="searchInput">
                 <div class="input-group-append">
                   <button class="btn btn-primary" type="button" id="searchBtn"><i class="fas fa-search"></i></button>
                 </div>
               </div>
               <div id="searches-container">
-                  <ul class="list-group list-groupflush" id="recentSearches">
-
-                  </ul>
+                  <div class="btn-group-vertical col-12 border rounded" id="recentSearches"></div>
               </div>
         </form>
 
-        <section id="city-info-container" class="col-md-10 p-3">
+        <section id="city-info-container" class="col-xl-10 p-3">
             <h3 id="cityId"></h3>
             <p id="temperature">Temperature:</p>
             <p id="humidity">Humidity:</p>
@@ -44,7 +42,7 @@
             <br>
             <p class="font-weight-bold">5-Day Forecast:</p>
             <div class="container row justify-content-between" id="weekly-forecast-container">
-                <div class="card bg-primary rounded text-white">
+                <div class="card bg-primary rounded text-white mb-1 col-s-12">
                     <div class="card-body">
                       <h6 class="card-title" id="day1title"></h6>
                       <img id="icon1"></img>
@@ -52,7 +50,7 @@
                       <p id="weeklyHumidity1"></p>
                     </div>
                   </div>
-                  <div class="card bg-primary rounded text-white">
+                  <div class="card bg-primary rounded text-white mb-1">
                     <div class="card-body">
                       <h6 class="card-title" id="day2title"></h6>
                       <img id="icon2"></img>
@@ -60,7 +58,7 @@
                       <p class="card-text" id="weeklyHumidity2"></p>
                     </div>
                   </div>
-                  <div class="card bg-primary rounded text-white">
+                  <div class="card bg-primary rounded text-white mb-1">
                     <div class="card-body">
                       <h6 class="card-title" id="day3title"></h6>
                       <img id="icon3"></img>
@@ -68,7 +66,7 @@
                       <p class="card-text" id="weeklyHumidity3"></p>
                     </div>
                   </div>
-                  <div class="card bg-primary rounded text-white">
+                  <div class="card bg-primary rounded text-white mb-1">
                     <div class="card-body">
                       <h6 class="card-title" id="day4title"></h6>
                       <img id="icon4"></img>
@@ -76,7 +74,7 @@
                       <p class="card-text" id="weeklyHumidity4"></p>
                     </div>
                   </div>
-                  <div class="card bg-primary rounded text-white">
+                  <div class="card bg-primary rounded text-white mb-1">
                     <div class="card-body">
                       <h6 class="card-title" id="day5title"></h6>
                       <img id="icon5"></img>
