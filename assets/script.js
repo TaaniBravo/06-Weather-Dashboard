@@ -7,26 +7,32 @@ const date = moment().format('l')
 $('.input-group-append').on('click', '#searchBtn', handleSearchRequest)
 
 // For the recent searches we want to pull from our localStorage and have it loaded on the screen upon viewing the site.
-let citiesSearched = localStorage.getItem('City-Searched') || [];
-for (let cityIndex = 0; cityIndex < citiesSearched.length; cityIndex++) {
-    let cityList = $('<li>').addClass('list-group-item searchBtn').text(citiesSearched)
-    // cityList.addClass()
+let searchHistory = JSON.parse(localStorage.getItem('City')) || [];
+
+for (let cityIndex = 0; cityIndex < searchHistory.length; cityIndex++) {
+
+    let cityList = $('<li>').addClass('list-group-item list-group-item-action').text(searchHistory[cityIndex]).css('textTransform', 'capitalize')
+
     $('#recentSearches').append(cityList)
 }
-
 
 function handleSearchRequest(e) {
     e.preventDefault()
 
     // LET searchRequest equal the text in the input search bar.
-    let searchRequest = $('#searchInput').val() 
+    let searchRequest = $('#searchInput').val()
 
     const queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
       "q=" + searchRequest + "&appid=" + APIKey;
 
+    // Once the user searches a city we want that city to be pushed into the recent searches list. So we create a new list element...
+    let newSearch = $('<li>').addClass('list-group-item list-group-item-action').text(searchRequest).css('textTransform', 'capitalize')
+    // THEN append it to our ul 'recentSearches'
+    $('#recentSearches').append(newSearch)
+
     handleForecastInfo(queryURL)
     handle5DayForecast(searchRequest)
-    handleStorage(queryURL)
+    handleStorage(searchRequest)
 }
 
 // For handling all the forecast info we have this function that will create and append the info in our HTML.
@@ -40,8 +46,6 @@ function handleForecastInfo(queryURL) {
 
     // THEN we are going to push our 'response into a function which is going to create and display our information for the requested city.
     .then(function(response) {
-        // DECLARE our variable for the UV index which going to use a different URL.
-        let uvURL = 'http://api.openweathermap.org/data/2.5/uvi?lat=' + response.coord.lat + '&lon=' + response.coord.lon + '&appid=' + APIKey
 
         // then set a variable for the icon we want to display with the dashboard.
         let weatherIcon = ($('<img>').attr('src', `http://openweathermap.org/img/wn/${response.weather[0].icon}.png`))
@@ -59,7 +63,10 @@ function handleForecastInfo(queryURL) {
         // Display the wind speed in the windSpeed ID.
         $('#windSpeed').text('Wind Speed: ' + response.wind.speed + ' MPH')
 
-        // TO display the UV index we are going to need to pull from the uvURL data that we made from the top.
+        // DECLARE our variable for the UV index which going to use a different URL.
+        let uvURL = 'http://api.openweathermap.org/data/2.5/uvi?lat=' + response.coord.lat + '&lon=' + response.coord.lon + '&appid=' + APIKey
+
+        // TO display the UV index we are going to need to pull from the uvURL data that we made.
         $.ajax({
             url: uvURL,
             method: "GET"
@@ -69,16 +76,16 @@ function handleForecastInfo(queryURL) {
         .then(function(response) {
             // Display the UV Index in the uvIndex ID.
             $('#uvIndex').text(response.value)
-
+            // IF the value is less than 3 the background will be green
             if (response.value <= 3) {
                 $('#uvIndex').addClass('bg-success text-white p-1 rounded')
             }
-
-            else if (response.value > 3 && response.value < 7) {
+            // ELSE IF the value is 4-7 the background will be yellow.
+            else if (response.value > 3 && response.value <= 7) {
                 $('#uvIndex').addClass('bg-warning text-white p-1 rounded')
             }
-
-            if (response.value >= 7) {
+            // ELSE IF the value is greater than 7 the background will be red.
+            else if (response.value > 7) {
                 $('#uvIndex').addClass('bg-danger text-white p-1 rounded')
             }
         })
@@ -114,24 +121,11 @@ function handle5DayForecast(searchRequest) {
 
         }
     })
-
-
-    console.log(weeklyForecast)
 }
 
-function handleStorage(queryURL) {
-    // We are going to store the city searched for after they have searched for a valid city.
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-      })
+function handleStorage(searchRequest) {
 
-    // THEN we are going to push our 'response into a function which is going to create and display our information for the requested city.
-    .then(function(response) {
-    let recentSearches = {
-        city: response.name
-    }
-    citiesSearched.push(recentSearches)
-    localStorage.setItem('City-Searched', citiesSearched)
-    })
+    searchHistory.push(searchRequest)
+
+    localStorage.setItem('City', JSON.stringify(searchHistory))
 }
