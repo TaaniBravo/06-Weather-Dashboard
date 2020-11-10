@@ -106,14 +106,12 @@ function handle5DayForecast(searchRequest) {
         for (let dayIndex = 1; dayIndex < 6; dayIndex++) {
             let dayInfo = response.list
 
-            let weeklyIcon = ($('<img>').attr('src', `http://openweathermap.org/img/wn/${dayInfo[dayIndex - 1].weather[0].icon}.png`))
-
             let tempF = (dayInfo[dayIndex].temp.day - 273.15) * 1.80 + 32;
             //  We start with pulling the next 5 dates from momentJS and displaying them in the card titles.
             $(`#day${dayIndex}title`).text(moment().add(dayIndex, 'd').format('l'))
             // THEN we display the icons that we want for each of the responses. 
-            $(`#weatherIcon${dayIndex}`).append(weeklyIcon)
-
+            // $(`#weatherIcon${dayIndex}`).append(weeklyIcon)
+            $(`#icon${dayIndex}`).attr('src', `http://openweathermap.org/img/wn/${dayInfo[dayIndex - 1].weather[0].icon}.png`)
             // NEXT is the Temperature and Humidity
             $(`#weeklyTemp${dayIndex}`).text('Temp: ' + tempF.toFixed(0) + '°F')
 
@@ -126,6 +124,6 @@ function handle5DayForecast(searchRequest) {
 function handleStorage(searchRequest) {
 
     searchHistory.push(searchRequest)
-
     localStorage.setItem('City', JSON.stringify(searchHistory))
+
 }
