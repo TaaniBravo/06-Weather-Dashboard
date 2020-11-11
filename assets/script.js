@@ -5,25 +5,34 @@ const date = moment().format('l')
 // Search Bar Event
 // Calls on function handleSearchRequest when something is submited.
 $('#container').on('click', '#searchBtn', handleSearchRequest)
-$('body').on('load', '#searchBtn', handleSearchRequest)
-
-//  WHEN the user clicks on the recent searches then we want to push that into our input so they can search that city again.
-$('#recentSearches').on('click', '.list-group-item-action', function(e) {
-    e.preventDefault()
-
-    $('#searchInput').val($(this).text()).css('textTransform', 'capitalize')
-})
 
 // For the recent searches we want to pull from our localStorage and have it loaded on the screen upon viewing the site.
 let searchHistory = JSON.parse(localStorage.getItem('City')) || [];
+
 const dupCitiesRemoved = Array.from(new Set(searchHistory))
+
 for (let cityIndex = 0; cityIndex < dupCitiesRemoved.length; cityIndex++) {
 
     // To remove the duplicate searches from the list we are going to use the new Set method and apply the localstorage list to a new array dupCitiesRemoved.
     
-    let cityList = $('<button>').addClass('btn text-left border-bottom').attr('id', 'searchBtn').text(dupCitiesRemoved[cityIndex]).css('textTransform', 'capitalize')
+    let cityList = $('<button>').addClass('btn text-left border rounded').attr('id', 'searchBtn').text(dupCitiesRemoved[cityIndex]).css('textTransform', 'capitalize')
 
     $('#recentSearches').append(cityList)
+}
+
+// Upon loading the page we want the document when it's READY to launch our handleLastCitySearch so the user will always have a city appended to their dashboard.
+$(document).ready(handleLastCitySearch)
+
+function handleLastCitySearch() {
+    // LET searchRequest equal the last city searched in our array OR seattle if dupCitiesRemoved is undefined
+    let searchRequest = dupCitiesRemoved[dupCitiesRemoved.length - 1] || 'seattle'
+
+    const queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
+      "q=" + searchRequest + "&appid=" + APIKey;
+
+    handleForecastInfo(queryURL)
+    handle5DayForecast(searchRequest)
+    handleStorage(searchRequest)
 }
 
 function handleSearchRequest(e) {
